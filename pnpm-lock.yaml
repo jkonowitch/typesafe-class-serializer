@@ -4,6 +4,14 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  immutable:
+    specifier: ~4.3.5
+    version: 4.3.5
+  zod:
+    specifier: '>3.0'
+    version: 3.22.4
+
 devDependencies:
   eslint:
     specifier: ^8.57.0
@@ -14,6 +22,9 @@ devDependencies:
   typescript:
     specifier: ^5.4.3
     version: 5.4.3
+  vite-plugin-typescript-transpile:
+    specifier: ~0.5.2
+    version: 0.5.2(typescript@5.4.3)
   vitest:
     specifier: ^1.4.0
     version: 1.4.0
@@ -905,6 +916,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immutable@4.3.5:
+    resolution: {integrity: sha512-8eabxkth9gZatlwl5TBuJnCsoTADlL6ftEr7A4qgdaTsPyreilDSnUk57SO+jfKcNtxPa22U5KK6DSeAYhpBJw==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -1391,6 +1406,14 @@ packages:
       - terser
     dev: true
 
+  /vite-plugin-typescript-transpile@0.5.2(typescript@5.4.3):
+    resolution: {integrity: sha512-MYqruTZZGLHY0Ig/mEgrX/r+tRjKz3GSGfD51CKu+fRUev7PXNowQ94B+yWpi54xIUhksZvdJkvmc3qDGH0ZXA==}
+    peerDependencies:
+      typescript: '>2.0'
+    dependencies:
+      typescript: 5.4.3
+    dev: true
+
   /vite@5.2.6:
     resolution: {integrity: sha512-FPtnxFlSIKYjZ2eosBQamz4CbyrTizbZ3hnGJlh/wMtCrlp1Hah6AzBLjGI5I2urTfNnpovpHdrL6YRuBOPnCA==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -1511,3 +1534,7 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
     dev: true
+
+  /zod@3.22.4:
+    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false

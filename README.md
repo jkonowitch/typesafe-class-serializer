@@ -21,6 +21,14 @@ This library is particularly useful in the following scenarios:
 
 ## Getting Started
 
+### Installation
+
+You can install the library using npm (or your package manager of choice). You must also have `zod` installed as a peer dependency.
+
+```bash
+npm install serializable-ts zod
+```
+
 ### Defining Schemas
 
 Schemas are defined using `zod`, a TypeScript-first schema declaration and validation library. This allows for detailed type checks and validations at runtime.
@@ -76,6 +84,12 @@ When dealing with properties that are instances of classes marked as serializabl
 Consider the following simplified `Person` class implementation:
 
 ```typescript
+
+const PersonSchema = z.object({
+  address: z.instanceof(Address),
+  name: z.string()
+});
+
 class Person {
   public readonly SCHEMA = PersonSchema;
 
@@ -101,6 +115,11 @@ When serializing collections, such as arrays of objects, the library allows for 
 Here's how you can define a `Company` class that contains a list of `Person` instances:
 
 ```typescript
+
+const CompanySchema = z.object({
+  people: z.array(z.instanceof(Person))
+});
+
 class Company {
   public readonly SCHEMA = CompanySchema;
 
@@ -165,8 +184,7 @@ class InternationalAddress extends Address {
 ```
 
 ### Validation
-
-Properties can be validated using `zod` schemas with the `@validateWith` and `@validateSetWith` decorators, ensuring data integrity.
+Properties can be validated using `zod` schemas with the `@validateWith` and `@validateSetWith` decorators. This allows for [self-encapsulation](https://martinfowler.com/bliki/SelfEncapsulation.html) without a lot of boilerplate. Note there are two separate decorators, one for `accessors` and the other for `setters`.
 
 ```typescript
 class Email {
@@ -178,5 +196,4 @@ class Email {
 ```
 
 ## Testing
-
-The library's functionality is thoroughly tested using unit tests, ensuring that serialization, deserialization, and validations work as expected.
+The library's functionality is thoroughly tested using unit tests. Please review them [here]() to see all of this functionality in action.

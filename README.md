@@ -33,7 +33,7 @@ This library is particularly useful in the following scenarios:
 You can install the library using npm (or your package manager of choice). You must also have `zod` installed as a peer dependency.
 
 ```bash
-npm install serializable-ts zod
+npm install serializable-ts-zod zod
 ```
 
 ### Defining Schemas and Creating Classes

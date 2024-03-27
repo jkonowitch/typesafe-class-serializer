@@ -1,4 +1,4 @@
-# Serializable TS
+# `serializable-ts-zod`
 
 [![coverage](https://coveralls.io/repos/github/jkonowitch/serializable-ts-zod/badge)](https://coveralls.io/github/mnasyrov/ditox)
 [![npm](https://img.shields.io/npm/v/serializable-ts-zod)](https://www.npmjs.com/package/serializable-ts-zod)

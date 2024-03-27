@@ -1,6 +1,9 @@
 # Serializable TS
 
-This library provides a robust framework for serializing and deserializing JavaScript objects in a declarative way, leveraging ES6 decorators and `zod` for schema definitions and validations. It ensures strict type safety and runtime checks, making it especially useful when working with other type-safe libraries.
+[![coverage](https://coveralls.io/repos/github/jkonowitch/serializable-ts-zod/badge)](https://coveralls.io/github/mnasyrov/ditox)
+[![npm](https://img.shields.io/npm/v/serializable-ts-zod)](https://www.npmjs.com/package/serializable-ts-zod)
+
+Serialize and deserialize JavaScript classes using ES6 decorators and `zod` for schema definitions and validations.
 
 ## Features
 

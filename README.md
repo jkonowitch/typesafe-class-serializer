@@ -37,7 +37,6 @@ npm install serializable-ts zod
 
 To ensure a seamless developer experience, **classes must define a public readonly SCHEMA property**, referencing the corresponding zod schema. Additionally, classes **must use this SCHEMA as the constructor argument for instantiation**.
 
-
 ```typescript
 import { z } from 'zod';
 
@@ -83,7 +82,6 @@ When dealing with properties that are instances of classes marked as serializabl
 Consider the following simplified `Person` class implementation:
 
 ```typescript
-
 const PersonSchema = z.object({
   address: z.instanceof(Address),
   name: z.string()
@@ -114,7 +112,6 @@ When serializing collections, such as arrays of objects, the library allows for 
 Here's how you can define a `Company` class that contains a list of `Person` instances:
 
 ```typescript
-
 const CompanySchema = z.object({
   people: z.array(z.instanceof(Person))
 });
@@ -124,7 +121,7 @@ class Company {
 
   @serializable('people', {
     doSerialize: (people) => people.map(serialize),
-    doDeserialize: (people) => people.map(person => deserialize(person, Person))
+    doDeserialize: (people) => people.map((person) => deserialize(person, Person))
   })
   accessor people: Person[];
 
@@ -183,13 +180,14 @@ class InternationalAddress extends Address {
 ```
 
 ### Validation
+
 Properties can be validated using `zod` schemas with the `@validateWith` and `@validateSetWith` decorators. This allows for [self-encapsulation](https://martinfowler.com/bliki/SelfEncapsulation.html) without a lot of boilerplate. Note there are two separate decorators, one for `accessors` and the other for `setters`. This can be combined with serialization (or not - it is technically a standalone feature).
 
 ```typescript
 const EmailSchema = z.object({
   address: z.string().email(),
   foo: z.string().min(4)
-})
+});
 
 class Email {
   public readonly SCHEMA = EmailSchema;
@@ -207,10 +205,11 @@ class Email {
 
   @validateSetWith(EmailSchema.shape.foo)
   set foo(s: string) {
-    this.#foo = s
+    this.#foo = s;
   }
 }
 ```
 
 ## Testing
+
 The library's functionality is thoroughly tested using unit tests. Please review them [here]() to see all of this functionality in action.

@@ -1,6 +1,6 @@
 {
   "name": "serializable-ts-zod",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Class serialization and deserialization with ES6 decorators, typescript, and zod.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -20,5 +20,11 @@
   },
   "keywords": [],
   "author": "Jeffrey Konowitch",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.3",
+    "vitest": "^1.4.0"
+  }
 }

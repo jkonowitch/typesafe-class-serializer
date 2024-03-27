@@ -1,5 +1,5 @@
 {
-  "name": "serializable-ts-zod",
+  "name": "typesafe-class-serializer",
   "version": "0.5.1",
   "description": "Class serialization and deserialization with ES6 decorators, typescript, and zod.",
   "main": "./dist/index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jkonowitch/serializable-ts-zod.git"
+    "url": "https://github.com/jkonowitch/typesafe-class-serializer.git"
   },
   "exports": {
     ".": {

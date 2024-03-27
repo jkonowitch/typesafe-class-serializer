@@ -1,7 +1,7 @@
-# `serializable-ts-zod`
+# `typesafe-class-serializer`
 
-[![coverage](https://coveralls.io/repos/github/jkonowitch/serializable-ts-zod/badge)](https://coveralls.io/github/jkonowitch/serializable-ts-zod)
-[![npm](https://img.shields.io/npm/v/serializable-ts-zod)](https://www.npmjs.com/package/serializable-ts-zod)
+[![coverage](https://coveralls.io/repos/github/jkonowitch/typesafe-class-serializer/badge)](https://coveralls.io/github/jkonowitch/typesafe-class-serializer)
+[![npm](https://img.shields.io/npm/v/typesafe-class-serializer)](https://www.npmjs.com/package/typesafe-class-serializer)
 
 Serialize and deserialize JavaScript classes using ES6 decorators and `zod` for schema definitions and validations.
 
@@ -31,7 +31,7 @@ Even if you're not following a strict DDD approach, this library can be benefici
 You can install the library using npm (or your package manager of choice). You must also have `zod` installed as a peer dependency.
 
 ```bash
-npm install serializable-ts-zod zod
+npm install typesafe-class-serializer zod
 ```
 
 ### Defining Schemas and Creating Classes

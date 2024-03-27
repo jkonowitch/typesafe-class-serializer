@@ -4,6 +4,8 @@
     "lib": ["esnext", "DOM", "DOM.Iterable"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "outDir": "dist",
+    "declaration": true,
     "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": true,

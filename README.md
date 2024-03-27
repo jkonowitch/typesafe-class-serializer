@@ -16,15 +16,15 @@ Serialize and deserialize JavaScript classes using ES6 decorators and `zod` for 
 
 This library takes advantage of new features of the JavaScript language, specifically ES6 decorators, which are currently at the [stage 3 proposal status](https://github.com/tc39/proposal-decorators) and are fully implemented in Typescript 5. Decorators offer a syntactically convenient way to modify class properties and methods, making them ideal for defining serialization and validation rules in a declarative manner. By leveraging decorators, Serializable TS provides a clean and intuitive API for marking class properties as serializable and attaching validation logic directly within class definitions.
 
+This library does _not_ require the use of `experimentalDecorators`.
+
 ## Why would I use this?
 
 This library is particularly useful in the following scenarios:
 
-- **Domain-Driven Design (DDD) Applications**: When building domain-driven applications, you often want to separate your core domain logic from the persistence mechanism (e.g., databases, APIs). This library allows you to define your domain models as serializable classes, abstracting away the persistence details and enabling you to work with plain JavaScript objects for storage or transmission.
+- **Domain-Driven Design (DDD)**: When using domain driven design, you often want to separate your core domain logic from the persistence mechanism (e.g., databases, APIs). This library allows you to define your domain models as serializable classes, abstracting away the persistence details and enabling you to work with plain JavaScript objects for storage or transmission.
 
 - **Any Application with Abstracted Persistence**: Even if you're not following a strict DDD approach, this library can be beneficial in any application where you want to decouple your core logic from the persistence layer. By defining your models as serializable classes, you can easily convert them to and from plain objects, facilitating integration with various storage or transmission mechanisms.
-
-- **Type-Safe Data Validation**: The library leverages `zod` for schema definitions and validations, ensuring strict type safety and runtime checks. This is particularly useful when working with other type-safe libraries or when dealing with complex data structures that require robust validation.
 
 ## Getting Started
 
@@ -38,7 +38,7 @@ npm install serializable-ts-zod zod
 
 ### Defining Schemas and Creating Classes
 
-To ensure a seamless developer experience, **classes must define a public readonly SCHEMA property**, referencing the corresponding zod schema. Additionally, classes **must use this SCHEMA as the constructor argument for instantiation**.
+To ensure runtime safety and correct type inference, **_classes must define a public readonly SCHEMA property_**, referencing the corresponding zod schema. Additionally, classes **_must use this SCHEMA as the constructor argument for instantiation_**. This is all enforced via types, so your IDE and `tsc` will error if you do not.
 
 ```typescript
 import { z } from 'zod';

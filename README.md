@@ -1,6 +1,17 @@
 # Serializable TS
 
-This library provides a robust framework for serializing and deserializing JavaScript objects, leveraging `zod` for schema definitions and validations. It ensures strict type safety and runtime checks, making it especially useful when working with other type-safe libraries.
+This library provides a robust framework for serializing and deserializing JavaScript objects in a declarative way, leveraging ES6 decorators and `zod` for schema definitions and validations. It ensures strict type safety and runtime checks, making it especially useful when working with other type-safe libraries.
+
+## Features
+
+- **Schema Definition with `zod`**: Allows for defining strict schemas for data validation and type inference.
+- **Type Safety**: Ensures type safety during serialization and deserialization processes, supporting full type inference on serialization return types.
+- **Serialization and Deserialization**: Facilitates the conversion between class instances and plain objects, supporting deep serialization of nested objects and collections.
+- **Validation**: Provides mechanisms for validating class properties both at instantiation and during property updates.
+
+## ES6 Decorators
+
+This library takes advantage of new features of the JavaScript language, specifically ES6 decorators, which are currently at the [stage 3 proposal status](https://github.com/tc39/proposal-decorators) and are fully implemented in Typescript 5. Decorators offer a syntactically convenient way to modify class properties and methods, making them ideal for defining serialization and validation rules in a declarative manner. By leveraging decorators, Serializable TS provides a clean and intuitive API for marking class properties as serializable and attaching validation logic directly within class definitions.
 
 ## Why would I use this?
 
@@ -11,13 +22,6 @@ This library is particularly useful in the following scenarios:
 - **Any Application with Abstracted Persistence**: Even if you're not following a strict DDD approach, this library can be beneficial in any application where you want to decouple your core logic from the persistence layer. By defining your models as serializable classes, you can easily convert them to and from plain objects, facilitating integration with various storage or transmission mechanisms.
 
 - **Type-Safe Data Validation**: The library leverages `zod` for schema definitions and validations, ensuring strict type safety and runtime checks. This is particularly useful when working with other type-safe libraries or when dealing with complex data structures that require robust validation.
-
-## Features
-
-- **Schema Definition with `zod`**: Allows for defining strict schemas for data validation and type inference.
-- **Type Safety**: Ensures type safety during serialization and deserialization processes, supporting full type inference on serialization return types.
-- **Serialization and Deserialization**: Facilitates the conversion between class instances and plain objects, supporting deep serialization of nested objects and collections.
-- **Validation**: Provides mechanisms for validating class properties both at instantiation and during property updates.
 
 ## Getting Started
 

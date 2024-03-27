@@ -36,7 +36,7 @@ npm install serializable-ts-zod zod
 
 ### Defining Schemas and Creating Classes
 
-To ensure runtime safety and correct type inference, **classes must define a public readonly SCHEMA property**, referencing the corresponding zod schema. Additionally, classes [**must use this SCHEMA as the constructor argument for instantiation**](#note-constructors). This is all enforced via types, so your IDE and `tsc` will error if you do not.
+To ensure runtime safety and correct type inference, <u>(1)</u> **classes must define a public readonly SCHEMA property**, referencing the corresponding zod schema, and <u>(2)</u> classes [**must use this SCHEMA as the constructor argument for instantiation**](#note-constructors). This is all enforced via types, so your IDE and `tsc` will error if you do not.
 
 ```typescript
 import { z } from 'zod';
@@ -85,8 +85,8 @@ class Address {
   @serializable('details')
   protected accessor details: { city: string; zipCode: string };
 
-  // this should never be called directly by clients
-  constructor(parameters: z.infer<typeof AddressSchema>) {
+  // this would never really be called directly by clients
+  protected constructor(parameters: z.infer<typeof AddressSchema>) {
     this.details = parameters.details;
   }
 
@@ -232,6 +232,11 @@ class Email {
   @validateSetWith(EmailSchema.shape.foo)
   set foo(s: string) {
     this.#foo = s;
+  }
+
+  constructor(parameters: z.infer<Email['SCHEMA']>) {
+    this.foo = parameters.foo;
+    this.address = parameters.address;
   }
 }
 ```

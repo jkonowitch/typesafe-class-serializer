@@ -31,7 +31,8 @@ npm install serializable-ts zod
 
 ### Defining Schemas and Creating Classes
 
-Schemas are defined using `zod`, a TypeScript-first schema declaration and validation library. This allows for detailed type checks and validations at runtime.
+To ensure a seamless developer experience, **classes must define a public readonly SCHEMA property**, referencing the corresponding zod schema. Additionally, classes **must use this SCHEMA as the constructor argument for instantiation**.
+
 
 ```typescript
 import { z } from 'zod';
@@ -39,11 +40,7 @@ import { z } from 'zod';
 const AddressSchema = z.object({
   details: z.object({ city: z.string(), zipCode: z.string() })
 });
-```
 
-Classes must define a `public readonly` `SCHEMA` property that points to the zod schema, with properties marked for serialization using the `@serializable` decorator.
-
-```typescript
 class Address {
   public readonly SCHEMA = AddressSchema;
 

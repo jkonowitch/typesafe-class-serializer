@@ -3,7 +3,7 @@
 [![coverage](https://coveralls.io/repos/github/jkonowitch/typesafe-class-serializer/badge)](https://coveralls.io/github/jkonowitch/typesafe-class-serializer)
 [![npm](https://img.shields.io/npm/v/typesafe-class-serializer)](https://www.npmjs.com/package/typesafe-class-serializer)
 
-Serialize and deserialize JavaScript classes using ES6 decorators and `zod` for schema definitions and validations.
+Typesafe serialization and deserialization library for JavaScript classes. Define your schema declaratively with ES6 decorators and `zod`.
 
 ## Features
 

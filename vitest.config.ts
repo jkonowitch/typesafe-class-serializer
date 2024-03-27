@@ -5,7 +5,8 @@ export default defineConfig({
   plugins: [vitePluginTypescriptTranspile({})],
   test: {
     coverage: {
-      provider: 'istanbul'
+      provider: 'istanbul',
+      reporter: 'lcovonly'
     }
   }
 });

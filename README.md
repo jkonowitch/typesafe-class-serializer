@@ -183,14 +183,32 @@ class InternationalAddress extends Address {
 ```
 
 ### Validation
-Properties can be validated using `zod` schemas with the `@validateWith` and `@validateSetWith` decorators. This allows for [self-encapsulation](https://martinfowler.com/bliki/SelfEncapsulation.html) without a lot of boilerplate. Note there are two separate decorators, one for `accessors` and the other for `setters`.
+Properties can be validated using `zod` schemas with the `@validateWith` and `@validateSetWith` decorators. This allows for [self-encapsulation](https://martinfowler.com/bliki/SelfEncapsulation.html) without a lot of boilerplate. Note there are two separate decorators, one for `accessors` and the other for `setters`. This can be combined with serialization (or not - it is technically a standalone feature).
 
 ```typescript
+const EmailSchema = z.object({
+  address: z.string().email(),
+  foo: z.string().min(4)
+})
+
 class Email {
-  @validateWith(z.string().email())
+  public readonly SCHEMA = EmailSchema;
+
+  @validateWith(EmailSchema.shape.address)
+  @serializable('address')
   accessor address: string;
-  @validateSetWith(z.string().min(4))
-  set foo(s: string) {}
+
+  #foo: string;
+
+  @serializable('foo')
+  get foo() {
+    return this.#foo;
+  }
+
+  @validateSetWith(EmailSchema.shape.foo)
+  set foo(s: string) {
+    this.#foo = s
+  }
 }
 ```
 

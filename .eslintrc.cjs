@@ -9,5 +9,6 @@ module.exports = {
   },
   env: {
     node: true
-  }
+  },
+  ignorePatterns: ['dist/**/*']
 };

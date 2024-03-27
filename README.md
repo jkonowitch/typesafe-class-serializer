@@ -7,24 +7,22 @@ Serialize and deserialize JavaScript classes using ES6 decorators and `zod` for 
 
 ## Features
 
-- **Schema Definition with `zod`**: Allows for defining strict schemas for data validation and type inference.
-- **Type Safety**: Ensures type safety during serialization and deserialization processes, supporting full type inference on serialization return types.
 - **Serialization and Deserialization**: Facilitates the conversion between class instances and plain objects, supporting deep serialization of nested objects and collections.
+- **Type Safety**: Ensures type safety during serialization and deserialization processes, supporting full type inference on serialization return types.
+- **Schema Definition with `zod`**: Allows for defining strict schemas for data validation and type inference.
 - **Validation**: Provides mechanisms for validating class properties both at instantiation and during property updates.
 
 ## ES6 Decorators
 
-This library takes advantage of new features of the JavaScript language, specifically ES6 decorators, which are currently at the [stage 3 proposal status](https://github.com/tc39/proposal-decorators) and are fully implemented in Typescript 5. Decorators offer a syntactically convenient way to modify class properties and methods, making them ideal for defining serialization and validation rules in a declarative manner. By leveraging decorators, Serializable TS provides a clean and intuitive API for marking class properties as serializable and attaching validation logic directly within class definitions.
+This library uses ES6 decorators, which are currently at the [stage 3 proposal status](https://github.com/tc39/proposal-decorators) and are fully implemented in Typescript 5.
 
-This library does _not_ require the use of `experimentalDecorators`.
+Note that this library does _not_ require the use of `experimentalDecorators`.
 
 ## Why would I use this?
 
-This library is particularly useful in the following scenarios:
+**Domain-Driven Design (DDD)**: When using domain driven design, you often want to separate your core domain logic from the persistence mechanism (e.g., databases, APIs). This library allows you to define your domain models as serializable classes, abstracting away the persistence details and enabling you to work with plain JavaScript objects for storage or transmission.
 
-- **Domain-Driven Design (DDD)**: When using domain driven design, you often want to separate your core domain logic from the persistence mechanism (e.g., databases, APIs). This library allows you to define your domain models as serializable classes, abstracting away the persistence details and enabling you to work with plain JavaScript objects for storage or transmission.
-
-- **Any Application with Abstracted Persistence**: Even if you're not following a strict DDD approach, this library can be beneficial in any application where you want to decouple your core logic from the persistence layer. By defining your models as serializable classes, you can easily convert them to and from plain objects, facilitating integration with various storage or transmission mechanisms.
+Even if you're not following a strict DDD approach, this library can be beneficial in any application where you want to decouple your core logic from the persistence layer.
 
 ## Getting Started
 
@@ -38,7 +36,7 @@ npm install serializable-ts-zod zod
 
 ### Defining Schemas and Creating Classes
 
-To ensure runtime safety and correct type inference, **_classes must define a public readonly SCHEMA property_**, referencing the corresponding zod schema. Additionally, classes **_must use this SCHEMA as the constructor argument for instantiation_**. This is all enforced via types, so your IDE and `tsc` will error if you do not.
+To ensure runtime safety and correct type inference, **classes must define a public readonly SCHEMA property**, referencing the corresponding zod schema. Additionally, classes [**must use this SCHEMA as the constructor argument for instantiation**](#note-constructors). This is all enforced via types, so your IDE and `tsc` will error if you do not.
 
 ```typescript
 import { z } from 'zod';
@@ -75,6 +73,31 @@ The `deserialize` function converts plain objects back into class instances, ens
 ```typescript
 const deserializedAddress = deserialize(serializedAddress, Address);
 ```
+
+### Note: Constructors
+
+This library makes the (opinionated) assumption that the serializable properties of a class fully constitute its constructor parameters. This does not preclude you from creating `static` methods (perhaps using the "ubiqitous language" of your domain) that will define its API (see below).
+
+```typescript
+class Address {
+  public readonly SCHEMA = AddressSchema;
+
+  @serializable('details')
+  protected accessor details: { city: string; zipCode: string };
+
+  // this should never be called directly by clients
+  constructor(parameters: z.infer<typeof AddressSchema>) {
+    this.details = parameters.details;
+  }
+
+  // Public API - can take different arguments, supply defaults, etc.
+  public static create(city: string, zipCode: string) {
+    new this({ city, zipCode });
+  }
+}
+```
+
+For those who really object to this, I would be open to discussion / PRs / design proposals that make this configurable.
 
 ## Advanced Serialization
 

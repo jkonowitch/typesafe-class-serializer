@@ -7,7 +7,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "vitest"
+    "test": "vitest",
+    "check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",

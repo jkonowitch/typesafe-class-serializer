@@ -36,10 +36,11 @@
     "zod": ">3.0"
   },
   "devDependencies": {
+    "@vitest/coverage-istanbul": "^1.4.0",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.3",
-    "vitest": "^1.4.0",
-    "vite-plugin-typescript-transpile": "~0.5.4"
+    "vite-plugin-typescript-transpile": "~0.5.4",
+    "vitest": "^1.4.0"
   }
 }

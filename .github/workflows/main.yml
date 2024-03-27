@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: '20'
       - name: Prepare
-        run: pnpm ci
+        run: pnpm i
       - name: Lint
         run: pnpm run check
       - name: Test

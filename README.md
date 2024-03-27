@@ -1,6 +1,6 @@
 # `serializable-ts-zod`
 
-[![coverage](https://coveralls.io/repos/github/jkonowitch/serializable-ts-zod/badge)](https://coveralls.io/github/mnasyrov/ditox)
+[![coverage](https://coveralls.io/repos/github/jkonowitch/serializable-ts-zod/badge)](https://coveralls.io/github/jkonowitch/serializable-ts-zod)
 [![npm](https://img.shields.io/npm/v/serializable-ts-zod)](https://www.npmjs.com/package/serializable-ts-zod)
 
 Serialize and deserialize JavaScript classes using ES6 decorators and `zod` for schema definitions and validations.

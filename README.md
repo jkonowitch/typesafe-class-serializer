@@ -215,4 +215,4 @@ class Email {
 
 ## Testing
 
-The library's functionality is thoroughly tested using unit tests. Please review them [here]() to see all of this functionality in action.
+The library's functionality is thoroughly tested using unit tests. Please review them [here](./src/index.test.ts) to see all of this functionality in action.

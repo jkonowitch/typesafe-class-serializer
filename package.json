@@ -6,7 +6,8 @@
   "types": "./dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "vitest"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,6 @@
     "prettier": "^3.2.5",
     "typescript": "^5.4.3",
     "vitest": "^1.4.0",
-    "vite-plugin-typescript-transpile": "~0.5.2"
+    "vite-plugin-typescript-transpile": "~0.5.4"
   }
 }

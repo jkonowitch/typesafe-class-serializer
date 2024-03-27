@@ -23,8 +23,8 @@ devDependencies:
     specifier: ^5.4.3
     version: 5.4.3
   vite-plugin-typescript-transpile:
-    specifier: ~0.5.2
-    version: 0.5.2(typescript@5.4.3)
+    specifier: ~0.5.4
+    version: 0.5.4(typescript@5.4.3)
   vitest:
     specifier: ^1.4.0
     version: 1.4.0
@@ -1406,8 +1406,8 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-typescript-transpile@0.5.2(typescript@5.4.3):
-    resolution: {integrity: sha512-MYqruTZZGLHY0Ig/mEgrX/r+tRjKz3GSGfD51CKu+fRUev7PXNowQ94B+yWpi54xIUhksZvdJkvmc3qDGH0ZXA==}
+  /vite-plugin-typescript-transpile@0.5.4(typescript@5.4.3):
+    resolution: {integrity: sha512-H86BzlHRqPg1ukV3y2Nm4pNzp5aWZxOq6ACZbRZDjAdvYOVeFHnYg3Bbx2x1i2vTvoiWH2wlPvxJWQdIz4x8UQ==}
     peerDependencies:
       typescript: '>2.0'
     dependencies:

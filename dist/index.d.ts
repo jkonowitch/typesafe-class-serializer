@@ -26,7 +26,7 @@ type DecoratorContext<Q, T> = ClassAccessorDecoratorContext<{
 }, T>;
 export declare function serializable<K extends string, Q extends z.ZodObject<{
     [P in K]: any;
-}>, T extends z.infer<Q['shape'][K]> & (z.Primitive | Record<string, unknown>)>(key: K): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
+}>, T extends z.infer<Q['shape'][K]> & (z.Primitive | Record<string, unknown> | Date)>(key: K): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
 export declare function serializable<K extends string, Q extends z.ZodObject<{
     [P in K]: any;
 }>, T extends z.infer<Q['shape'][K]>>(key: K, k: ClassConstructorWithSchema<Q['shape'][K]>): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;

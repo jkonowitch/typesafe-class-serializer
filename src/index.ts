@@ -59,7 +59,7 @@ export function serializable<
   K extends string,
   Q extends z.ZodObject<{ [P in K]: any }>,
   // when providing _just_ a key - this must be a primitive or a simple object
-  T extends z.infer<Q['shape'][K]> & (z.Primitive | Record<string, unknown>)
+  T extends z.infer<Q['shape'][K]> & (z.Primitive | Record<string, unknown> | Date)
 >(key: K): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
 export function serializable<
   K extends string,

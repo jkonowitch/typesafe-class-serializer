@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { z } from 'zod';
+import { ZodObject, type z } from 'zod';
 import { Map, Set } from 'immutable';
 import type { SerializedProperties, UnwrapZodSchema } from './util.js';
 
@@ -57,22 +57,22 @@ type DecoratorContext<Q, T> =
 
 export function serializable<
   K extends string,
-  Q extends z.ZodObject<{ [P in K]: any }>,
+  Q extends z.ZodType<{ [P in K]: any }>,
   // when providing _just_ a key - this must be a primitive or a simple object
-  T extends z.infer<Q['shape'][K]> & (z.Primitive | Record<string, unknown> | Date)
+  T extends z.infer<Q>[K] & (z.Primitive | Record<string, unknown> | Date)
 >(key: K): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
 export function serializable<
   K extends string,
-  Q extends z.ZodObject<{ [P in K]: any }>,
-  T extends z.infer<Q['shape'][K]>
+  Q extends z.ZodType<{ [P in K]: any }>,
+  T extends z.infer<Q>[K]
 >(
   key: K,
-  k: ClassConstructorWithSchema<Q['shape'][K]>
+  k: ClassConstructorWithSchema<Q>
 ): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
 export function serializable<
   K extends string,
-  Q extends z.ZodObject<{ [P in K]: any }>,
-  T extends z.infer<Q['shape'][K]>,
+  Q extends z.ZodType<{ [P in K]: any }>,
+  T extends z.infer<Q>[K],
   O
 >(
   key: K,
@@ -80,14 +80,12 @@ export function serializable<
 ): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
 export function serializable<
   K extends string,
-  Q extends z.ZodObject<{ [P in K]: any }>,
-  T extends z.infer<Q['shape'][K]>,
+  Q extends z.ZodType<{ [P in K]: any }>,
+  T extends z.infer<Q>[K],
   O
 >(
   key: K,
-  k?:
-    | { doSerialize: (i: T) => O; doDeserialize: (i: O) => T }
-    | ClassConstructorWithSchema<Q['shape'][K]>
+  k?: { doSerialize: (i: T) => O; doDeserialize: (i: O) => T } | ClassConstructorWithSchema<Q>
 ): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void {
   return function (_target, context) {
     if (context.static || context.private) {
@@ -130,7 +128,7 @@ export function serializable<
   };
 }
 
-export function serialize<K extends z.AnyZodObject>(
+export function serialize<K extends z.ZodTypeAny>(
   instance: {
     SCHEMA: K;
   },
@@ -140,7 +138,7 @@ export function serialize<K extends z.AnyZodObject>(
 
   const serializables = collectAncestorSerializables(metadata, Object.getPrototypeOf(instance));
 
-  if (opts.strict) {
+  if (opts.strict && instance.SCHEMA instanceof ZodObject) {
     const schemaKeys = Set.fromKeys<string>(instance.SCHEMA.shape);
 
     if (schemaKeys.size !== serializables.size) {

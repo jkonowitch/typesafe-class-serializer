@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ZodObject } from 'zod';
 import { Map, Set } from 'immutable';
 if (!Symbol.metadata) {
     Symbol.metadata = Symbol('Symbol.metadata');
@@ -64,6 +66,8 @@ export function serialize(instance, opts = { strict: false }) {
     const metadata = instance.constructor[Symbol.metadata];
     const serializables = collectAncestorSerializables(metadata, Object.getPrototypeOf(instance));
     if (opts.strict) {
+        if (instance.SCHEMA instanceof ZodObject !== true)
+            throw 'must be a zod object when using strict mode';
         const schemaKeys = Set.fromKeys(instance.SCHEMA.shape);
         if (schemaKeys.size !== serializables.size) {
             const serializableKeys = serializables.map((v) => v.serializationKey).toSet();

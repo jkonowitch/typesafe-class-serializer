@@ -1,6 +1,6 @@
 {
   "name": "typesafe-class-serializer",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "Class serialization and deserialization with ES6 decorators, typescript, and zod.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

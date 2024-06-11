@@ -1,4 +1,4 @@
-import type { z } from 'zod';
+import { type z } from 'zod';
 import type { SerializedProperties, UnwrapZodSchema } from './util.js';
 type ClassWithSchema = {
     new (...args: any[]): {
@@ -6,7 +6,7 @@ type ClassWithSchema = {
     };
 };
 interface ClassConstructorWithSchema<S extends z.ZodTypeAny> {
-    new (args: UnwrapZodSchema<z.infer<S>>, ...rest: any[]): {
+    new (args: UnwrapZodSchema<S>, ...rest: any[]): {
         SCHEMA: z.ZodTypeAny;
     };
 }
@@ -24,19 +24,19 @@ type DecoratorContext<Q, T> = ClassAccessorDecoratorContext<{
 }, T> | ClassFieldDecoratorContext<{
     SCHEMA: Q;
 }, T>;
-export declare function serializable<K extends string, Q extends z.ZodObject<{
+export declare function serializable<K extends string, Schema extends z.ZodType<{
     [P in K]: any;
-}>, T extends z.infer<Q['shape'][K]> & (z.Primitive | Record<string, unknown> | Date)>(key: K): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
-export declare function serializable<K extends string, Q extends z.ZodObject<{
+}, any, any>, T extends z.infer<Schema>[K] & (z.Primitive | Record<string, unknown>)>(key: K): (_target: DecoratorTarget<Schema, T>, context: DecoratorContext<Schema, T>) => void;
+export declare function serializable<K extends string, Schema extends z.ZodType<{
     [P in K]: any;
-}>, T extends z.infer<Q['shape'][K]>>(key: K, k: ClassConstructorWithSchema<Q['shape'][K]>): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
-export declare function serializable<K extends string, Q extends z.ZodObject<{
+}, any, any>, T extends z.infer<Schema>[K]>(key: K, k: ClassConstructorWithSchema<T>): (_target: DecoratorTarget<Schema, T>, context: DecoratorContext<Schema, T>) => void;
+export declare function serializable<K extends string, Schema extends z.ZodType<{
     [P in K]: any;
-}>, T extends z.infer<Q['shape'][K]>, O>(key: K, k: {
+}, any, any>, T extends z.infer<Schema>[K], O>(key: K, k: {
     doSerialize: (i: T) => O;
     doDeserialize: (i: O) => T;
-}): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
-export declare function serialize<K extends z.AnyZodObject>(instance: {
+}): (_target: DecoratorTarget<Schema, T>, context: DecoratorContext<Schema, T>) => void;
+export declare function serialize<K extends z.ZodTypeAny>(instance: {
     SCHEMA: K;
 }, opts?: {
     strict: boolean;

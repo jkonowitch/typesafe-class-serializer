@@ -18,7 +18,7 @@ type ClassWithSchema = {
 };
 
 interface ClassConstructorWithSchema<S extends z.ZodTypeAny> {
-  new (args: UnwrapZodSchema<z.infer<S>>, ...rest: any[]): { SCHEMA: z.ZodTypeAny };
+  new (args: UnwrapZodSchema<S>, ...rest: any[]): { SCHEMA: z.ZodTypeAny };
 }
 
 export function validateSetWith<S extends z.ZodTypeAny, T = z.infer<S>>(schema: S) {
@@ -57,36 +57,36 @@ type DecoratorContext<Q, T> =
 
 export function serializable<
   K extends string,
-  Q extends z.ZodType<{ [P in K]: any }>,
+  Schema extends z.ZodType<{ [P in K]: any }, any, any>,
   // when providing _just_ a key - this must be a primitive or a simple object
-  T extends z.infer<Q>[K] & (z.Primitive | Record<string, unknown> | Date)
->(key: K): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
+  T extends z.infer<Schema>[K] & (z.Primitive | Record<string, unknown>)
+>(key: K): (_target: DecoratorTarget<Schema, T>, context: DecoratorContext<Schema, T>) => void;
 export function serializable<
   K extends string,
-  Q extends z.ZodType<{ [P in K]: any }>,
-  T extends z.infer<Q>[K]
+  Schema extends z.ZodType<{ [P in K]: any }, any, any>,
+  T extends z.infer<Schema>[K]
 >(
   key: K,
-  k: ClassConstructorWithSchema<Q>
-): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
+  k: ClassConstructorWithSchema<T>
+): (_target: DecoratorTarget<Schema, T>, context: DecoratorContext<Schema, T>) => void;
 export function serializable<
   K extends string,
-  Q extends z.ZodType<{ [P in K]: any }>,
-  T extends z.infer<Q>[K],
+  Schema extends z.ZodType<{ [P in K]: any }, any, any>,
+  T extends z.infer<Schema>[K],
   O
 >(
   key: K,
   k: { doSerialize: (i: T) => O; doDeserialize: (i: O) => T }
-): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void;
+): (_target: DecoratorTarget<Schema, T>, context: DecoratorContext<Schema, T>) => void;
 export function serializable<
   K extends string,
-  Q extends z.ZodType<{ [P in K]: any }>,
-  T extends z.infer<Q>[K],
+  Schema extends z.ZodType<{ [P in K]: any }, any, any>,
+  T extends z.infer<Schema>[K],
   O
 >(
   key: K,
-  k?: { doSerialize: (i: T) => O; doDeserialize: (i: O) => T } | ClassConstructorWithSchema<Q>
-): (_target: DecoratorTarget<Q, T>, context: DecoratorContext<Q, T>) => void {
+  k?: { doSerialize: (i: T) => O; doDeserialize: (i: O) => T } | ClassConstructorWithSchema<T>
+): (_target: DecoratorTarget<Schema, T>, context: DecoratorContext<Schema, T>) => void {
   return function (_target, context) {
     if (context.static || context.private) {
       throw new Error('Can only serialize public instance members.');
@@ -138,7 +138,9 @@ export function serialize<K extends z.ZodTypeAny>(
 
   const serializables = collectAncestorSerializables(metadata, Object.getPrototypeOf(instance));
 
-  if (opts.strict && instance.SCHEMA instanceof ZodObject) {
+  if (opts.strict) {
+    if (instance.SCHEMA instanceof ZodObject !== true)
+      throw 'must be a zod object when using strict mode';
     const schemaKeys = Set.fromKeys<string>(instance.SCHEMA.shape);
 
     if (schemaKeys.size !== serializables.size) {

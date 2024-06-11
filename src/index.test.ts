@@ -10,7 +10,7 @@ class Address {
   public readonly SCHEMA = AddressSchema;
 
   @serializable('details')
-  protected accessor details: { city: string; zipCode: string };
+  accessor details: { city: string; zipCode: string };
 
   constructor(parameters: z.infer<Address['SCHEMA']>) {
     this.details = parameters.details;
@@ -75,6 +75,34 @@ class InternationalAddress extends Address {
   constructor(parameters: z.infer<InternationalAddress['SCHEMA']>) {
     super(parameters);
     this.country = parameters.country;
+  }
+}
+
+const baseDirectorySchema = z.object({
+  name: z.string()
+});
+
+type DirectorySchema = z.infer<typeof baseDirectorySchema> & {
+  subdirectories: Directory[];
+};
+
+class Directory {
+  public readonly SCHEMA: z.ZodType<DirectorySchema> = baseDirectorySchema.extend({
+    subdirectories: z.array(z.instanceof(Directory))
+  });
+
+  @serializable('subdirectories', {
+    doSerialize: (a) => a.map((i) => serialize(i)),
+    doDeserialize: (a) => a.map((i) => deserialize(i, Directory))
+  })
+  accessor subdirectories: Directory[];
+
+  @serializable('name')
+  accessor name: string;
+
+  constructor(parameters: z.infer<Directory['SCHEMA']>) {
+    this.subdirectories = parameters.subdirectories;
+    this.name = parameters.name;
   }
 }
 
@@ -197,6 +225,19 @@ describe('serializable', () => {
       expect(deserialized.dep.foo).toEqual('bar');
     });
 
+    it('serializes objects with recursive schemas', () => {
+      const directory = new Directory({
+        name: 'folder-a',
+        subdirectories: [new Directory({ name: 'folder-b', subdirectories: [] })]
+      });
+
+      const serialized = serialize(directory);
+      expect(serialized).toEqual({
+        subdirectories: [{ subdirectories: [], name: 'folder-b' }],
+        name: 'folder-a'
+      });
+    });
+
     describe('strict', () => {
       it('ensures all keys in the SCHEMA have been serialized', () => {
         class Example {
@@ -269,6 +310,18 @@ describe('serializable', () => {
       expect(intlAddress.country).toEqual('United States');
       expect(intlAddress.city).toEqual('City');
       expect(intlAddress.zipCode).toEqual('12345');
+    });
+
+    it('deserializes objects with recursive schemas', () => {
+      const serialized = {
+        subdirectories: [{ subdirectories: [], name: 'folder-b' }],
+        name: 'folder-a'
+      };
+
+      const directory = deserialize(serialized, Directory);
+
+      expect(directory.name).toEqual('folder-a');
+      expect(directory.subdirectories[0].name).toEqual('folder-b');
     });
   });
 

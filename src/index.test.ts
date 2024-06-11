@@ -311,6 +311,18 @@ describe('serializable', () => {
       expect(intlAddress.city).toEqual('City');
       expect(intlAddress.zipCode).toEqual('12345');
     });
+
+    it('deserializes objects with recursive schemas', () => {
+      const serialized = {
+        subdirectories: [{ subdirectories: [], name: 'folder-b' }],
+        name: 'folder-a'
+      };
+
+      const directory = deserialize(serialized, Directory);
+
+      expect(directory.name).toEqual('folder-a');
+      expect(directory.subdirectories[0].name).toEqual('folder-b');
+    });
   });
 
   describe('strict', () => {

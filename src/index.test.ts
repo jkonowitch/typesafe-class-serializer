@@ -106,6 +106,19 @@ class Directory {
   }
 }
 
+class WithOptional {
+  public readonly SCHEMA = z.object({
+    title: z.string().optional()
+  });
+
+  @serializable('title')
+  readonly title?: string;
+
+  constructor(params: z.infer<WithOptional['SCHEMA']>) {
+    this.title = params.title;
+  }
+}
+
 describe('serializable', () => {
   const addressObj = { details: { city: 'City', zipCode: '12345' } };
   const personObj = {
@@ -125,6 +138,17 @@ describe('serializable', () => {
           city: string;
           zipCode: string;
         };
+      }>();
+    });
+
+    it('supports optional attributes', () => {
+      const thing = new WithOptional({});
+      const serialized = serialize(thing);
+      expect(serialized).toEqual({
+        title: undefined
+      });
+      expectTypeOf(serialized).toEqualTypeOf<{
+        title?: string;
       }>();
     });
 
@@ -270,6 +294,11 @@ describe('serializable', () => {
       const deserialized = deserialize(addressObj, Address);
       expect(deserialized.city).toEqual('City');
       expect(deserialized.zipCode).toEqual('12345');
+    });
+
+    it('supports optional attributes', () => {
+      expect(deserialize({}, WithOptional).title).toBeUndefined();
+      expect(deserialize({ title: 'hello' }, WithOptional).title).toEqual('hello');
     });
 
     it('recursively deserializes', () => {

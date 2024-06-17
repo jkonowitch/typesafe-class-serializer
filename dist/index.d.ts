@@ -25,13 +25,13 @@ type DecoratorContext<Q, T> = ClassAccessorDecoratorContext<{
     SCHEMA: Q;
 }, T>;
 export declare function serializable<K extends string, Schema extends z.ZodType<{
-    [P in K]: any;
+    [P in K]?: any;
 }, any, any>, T extends z.infer<Schema>[K] & (z.Primitive | Record<string, unknown>)>(key: K): (_target: DecoratorTarget<Schema, T>, context: DecoratorContext<Schema, T>) => void;
 export declare function serializable<K extends string, Schema extends z.ZodType<{
-    [P in K]: any;
+    [P in K]?: any;
 }, any, any>, T extends z.infer<Schema>[K]>(key: K, k: ClassConstructorWithSchema<T>): (_target: DecoratorTarget<Schema, T>, context: DecoratorContext<Schema, T>) => void;
 export declare function serializable<K extends string, Schema extends z.ZodType<{
-    [P in K]: any;
+    [P in K]?: any;
 }, any, any>, T extends z.infer<Schema>[K], O>(key: K, k: {
     doSerialize: (i: T) => O;
     doDeserialize: (i: O) => T;

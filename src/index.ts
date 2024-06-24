@@ -21,6 +21,8 @@ interface ClassConstructorWithSchema<S extends z.ZodTypeAny> {
   new (args: UnwrapZodSchema<S>, ...rest: any[]): { SCHEMA: z.ZodTypeAny };
 }
 
+export type { SerializedProperties };
+
 export function validateSetWith<S extends z.ZodTypeAny, T = z.infer<S>>(schema: S) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return function (target: (val: T) => void | T, _context: ClassSetterDecoratorContext) {

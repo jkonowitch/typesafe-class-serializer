@@ -10,6 +10,7 @@ interface ClassConstructorWithSchema<S extends z.ZodTypeAny> {
         SCHEMA: z.ZodTypeAny;
     };
 }
+export type { SerializedProperties };
 export declare function validateSetWith<S extends z.ZodTypeAny, T = z.infer<S>>(schema: S): (target: (val: T) => void | T, _context: ClassSetterDecoratorContext) => (val: T) => void | T;
 export declare function validateWith<S extends z.ZodTypeAny, T = z.infer<S>>(schema: S): (target: ClassAccessorDecoratorTarget<unknown, T>, _context: ClassAccessorDecoratorContext) => {
     set(val: T): void;
@@ -44,4 +45,3 @@ export declare function serialize<K extends z.ZodTypeAny>(instance: {
 export declare function deserialize<T extends ClassWithSchema>(obj: SerializedProperties<z.infer<InstanceType<T>['SCHEMA']>>, klass: T, opts?: {
     strict: boolean;
 }): InstanceType<T>;
-export {};

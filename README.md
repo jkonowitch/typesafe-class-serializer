@@ -5,6 +5,8 @@
 
 Type safe serialization and deserialization library for JavaScript classes. Define your schema declaratively with ES6 decorators and `zod`.
 
+⚠️ Deprecation Notice (7/23/2024): This project will no longer be maintained. The [`@effect/schema`](https://github.com/Effect-TS/effect/tree/main/packages/schema) package from the good folks at [`Effect-ts`](https://effect.website) does typesafe serialization / deserialization, but WAY more robustly with a thousand more features than this library. It is more robust, community supported, etc. This has been an interesting project though to learn more about how difficult this problem really is!
+
 ## Features
 
 - **Serialization and Deserialization**: Facilitates the conversion between class instances and plain objects, supporting deep serialization of nested objects and collections.
